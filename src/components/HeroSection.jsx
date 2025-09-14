@@ -4,46 +4,53 @@ import { Link } from 'react-router-dom';
 
 const HeroSection = () => {
   return (
-    <div
-      className='relative h-[80vh] min-h-[500px] flex items-center justify-center text-white'
-      style={{
-        backgroundImage: `url('https://placehold.co/1920x1080/0a192f/88c0d0?text=Global+Trade')`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-      }}
-    >
-      <div className='absolute inset-0 bg-navy bg-opacity-60' />
-      <div className='relative z-10 text-center px-4'>
-        <motion.h1
-          initial={{ opacity: 0, y: -50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className='text-4xl md:text-6xl font-extrabold text-light-slate mb-4'
-        >
-          Connecting Your Business to the World
-        </motion.h1>
-        <motion.p
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.3 }}
-          className='text-lg md:text-xl max-w-3xl mx-auto text-sky-blue mb-8'
-        >
+    <div className='relative min-h-[90vh] flex items-center justify-center'>
+      {/* Background with overlay */}
+      <div className='absolute inset-0 bg-gradient-to-b from-navy/90 to-navy'>
+        <div className='absolute inset-0 bg-gradient-to-r from-navy/90 via-transparent to-navy/90' />
+      </div>
+
+      {/* Content */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className='relative z-10 text-center px-4 max-w-4xl mx-auto'
+      >
+        <h1 className='text-4xl md:text-6xl font-bold text-light-slate mb-6 leading-tight'>
+          Connecting Your Business
+          <span className='bg-gradient-to-r from-sky-blue to-accent-orange bg-clip-text text-transparent'>
+            {' '}
+            to the World
+          </span>
+        </h1>
+
+        <p className='text-lg md:text-xl text-slate mb-12 max-w-2xl mx-auto'>
           Your reliable partner in global export and import solutions, ensuring
           seamless and efficient trade across borders.
-        </motion.p>
-        <motion.div
-          initial={{ opacity: 0, scale: 0.5 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5, delay: 0.6 }}
+        </p>
+
+        <Link
+          to='/quote'
+          className='inline-flex items-center px-8 py-4 bg-sky-blue text-navy font-bold rounded-full 
+                     hover:bg-accent-orange transition-all duration-300 transform hover:scale-105
+                     shadow-lg hover:shadow-sky-blue/20'
         >
-          <Link
-            to='/contact'
-            className='bg-accent-orange text-white font-bold py-3 px-8 rounded-full text-lg hover:bg-orange-600 transition duration-300 transform hover:scale-105'
+          Get a Quote
+          <svg
+            className='ml-2 w-5 h-5'
+            fill='none'
+            stroke='currentColor'
+            viewBox='0 0 24 24'
           >
-            Get a Quote
-          </Link>
-        </motion.div>
-      </div>
+            <path
+              strokeLinecap='round'
+              strokeLinejoin='round'
+              strokeWidth={2}
+              d='M13 7l5 5m0 0l-5 5m5-5H6'
+            />
+          </svg>
+        </Link>
+      </motion.div>
     </div>
   );
 };

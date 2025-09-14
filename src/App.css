@@ -1,42 +1,90 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+/* Global resets */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+html, body {
+  height: 100%;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #0a192f; /* navy background fallback */
+  color: #e5e9f0; /* light-slate text fallback */
+}
+
+/* Color utility classes (in case Tailwind config isn't extended yet) */
+.bg-navy {
+  background-color: #0a192f;
+}
+
+.bg-light-navy {
+  background-color: #112240;
+}
+
+.text-light-slate {
+  color: #e5e9f0;
+}
+
+.text-accent-orange {
+  color: #f97316;
+}
+
+.text-sky-blue {
+  color: #88c0d0;
+}
+
+.text-slate {
+  color: #94a3b8;
+}
+
+/* Reusable card glow */
+.card-glow {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-glow:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+}
+
+/* Optional link transition */
+a {
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: #88c0d0; /* sky-blue */
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
   }
-  to {
-    transform: rotate(360deg);
+  
+  body {
+    @apply bg-navy text-light-slate font-inter;
   }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
+@layer components {
+  .card-glow {
+    @apply transition-all duration-300 ease-in-out;
+  }
+  
+  .card-glow:hover {
+    @apply transform -translate-y-1 shadow-xl shadow-black/25;
   }
 }
 
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
+@layer utilities {
+  .transition-standard {
+    @apply transition-all duration-300 ease-in-out;
+  }
 }

@@ -1,6 +1,5 @@
-
-
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+/* Import the new font from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -10,17 +9,25 @@ body {
   @apply bg-navy text-slate antialiased;
 }
 
-/* Optional custom scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
+
+/* Custom glowing border effect for cards */
+@layer utilities {
+  .card-glow {
+    @apply relative overflow-hidden;
+  }
+  .card-glow::before {
+    content: '';
+    @apply absolute -top-1/2 -left-1/2 w-[200%] h-[200%] bg-no-repeat opacity-0 transition-opacity duration-500;
+    background-image: radial-gradient(circle at center, theme('colors.sky-blue'), transparent 25%);
+    animation: rotate 6s linear infinite;
+  }
+  .card-glow:hover::before {
+    @apply opacity-20;
+  }
 }
-::-webkit-scrollbar-track {
-  background: #0a192f;
-}
-::-webkit-scrollbar-thumb {
-  background: #2a4160;
-  border-radius: 4px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #3a5374;
+
+@keyframes rotate {
+  to {
+    transform: rotate(360deg);
+  }
 }

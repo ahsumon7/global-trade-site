@@ -1,90 +1,92 @@
-import React, { useState, useEffect } from 'react';
-import { Link, NavLink } from 'react-router-dom';
-import { FaBars, FaTimes } from 'react-icons/fa';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
-
-  const toggleMenu = () => setIsOpen(!isOpen);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const navLinks = [
-    { title: 'Home', path: '/' },
-    { title: 'About Us', path: '/about' },
-    { title: 'Services', path: '/services' },
-    { title: 'Contact', path: '/contact' },
-  ];
 
   return (
-    <nav
-      className={`sticky top-0 z-50 w-full transition-all duration-300 ${
-        isScrolled ? 'bg-navy/80 backdrop-blur-sm shadow-lg' : 'bg-transparent'
-      }`}
-    >
-      <div className='container mx-auto px-4 sm:px-6 lg:px-8'>
-        <div className='flex items-center justify-between h-20'>
-          <Link to='/' className='text-2xl font-bold text-sky-blue'>
-            Global<span className='text-accent-orange'>Trade</span>
-            {/* Or use your logo: <img src="/path/to/logo.png" alt="Logo" className="h-10" /> */}
+    <nav className="fixed w-full z-50 bg-navy/90 backdrop-blur-md">
+      <div className="container mx-auto px-4 py-4">
+        <div className="flex justify-between items-center">
+          <Link to="/" className="text-3xl font-bold text-light-slate hover:text-sky-blue transition-colors">
+            GlobalTrade
           </Link>
-          <div className='hidden md:flex items-center space-x-8'>
-            {navLinks.map((link) => (
-              <NavLink
-                key={link.path}
-                to={link.path}
-                className={({ isActive }) =>
-                  `text-lg font-medium transition-colors duration-300 ${
-                    isActive
-                      ? 'text-accent-orange'
-                      : 'text-light-slate hover:text-sky-blue'
-                  }`
-                }
+
+          {/* Desktop Menu */}
+          <div className="hidden md:flex space-x-8">
+            {['Services', 'About', 'Contact'].map((item) => (
+              <Link
+                key={item}
+                to={`/${item.toLowerCase()}`}
+                className="text-slate hover:text-sky-blue transition-colors text-lg"
               >
-                {link.title}
-              </NavLink>
+                {item}
+              </Link>
             ))}
-          </div>
-          <div className='md:hidden'>
-            <button
-              onClick={toggleMenu}
-              className='text-light-slate focus:outline-none'
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              className="bg-sky-blue text-navy px-6 py-2 rounded-full font-semibold hover:bg-accent-orange transition-colors"
             >
-              {isOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
-            </button>
+              Get Quote
+            </motion.button>
           </div>
+
+          {/* Mobile Menu Button */}
+          <button
+            className="md:hidden text-slate"
+            onClick={() => setIsOpen(!isOpen)}
+          >
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              {isOpen ? (
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              ) : (
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
+              )}
+            </svg>
+          </button>
         </div>
+
+        {/* Mobile Menu */}
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="md:hidden pt-4"
+          >
+            <div className="flex flex-col space-y-4">
+              {['Services', 'About', 'Contact'].map((item) => (
+                <Link
+                  key={item}
+                  to={`/${item.toLowerCase()}`}
+                  className="text-slate hover:text-sky-blue transition-colors text-lg"
+                  onClick={() => setIsOpen(false)}
+                >
+                  {item}
+                </Link>
+              ))}
+              <button className="bg-sky-blue text-navy px-6 py-2 rounded-full font-semibold hover:bg-accent-orange transition-colors">
+                Get Quote
+              </button>
+            </div>
+          </motion.div>
+        )}
       </div>
-      {/* Mobile Menu */}
-      {isOpen && (
-        <div className='md:hidden bg-navy/95 backdrop-blur-sm absolute w-full'>
-          <div className='px-2 pt-2 pb-3 space-y-1 sm:px-3 flex flex-col items-center'>
-            {navLinks.map((link) => (
-              <NavLink
-                key={link.path}
-                to={link.path}
-                onClick={toggleMenu}
-                className={({ isActive }) =>
-                  `block px-3 py-2 rounded-md text-base font-medium transition-colors duration-300 w-full text-center ${
-                    isActive
-                      ? 'text-accent-orange bg-slate/20'
-                      : 'text-light-slate hover:text-sky-blue hover:bg-slate/10'
-                  }`
-                }
-              >
-                {link.title}
-              </NavLink>
-            ))}
-          </div>
-        </div>
-      )}
     </nav>
   );
 };
